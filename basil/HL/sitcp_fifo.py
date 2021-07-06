@@ -58,19 +58,15 @@ class sitcp_fifo(HardwareLayer):
         else:
             super(sitcp_fifo, self).__setattr__(name, value)
 
-    def get_data(self, bytes=4):
+    def get_data(self):
         ''' Reading data from SiTCP FIFO (via TCP).
-
-        Parameters
-        ----------
-        bytes : unsigned integer
-            TCP data bus width. 1G SiTCP: 4 bytes (default), 10G SiTCPXG: 8 bytes
 
         Returns
         -------
         array : numpy.ndarray
             Array of unsigned integers (32 bit).
         '''
+        bytes = 8 if self._intf.speed == '10' else 4
         fifo_size = self._intf._get_tcp_data_size()
         fifo_int_size = int((fifo_size - (fifo_size % bytes)) / bytes)
         data = self._intf._get_tcp_data(fifo_int_size * bytes)
