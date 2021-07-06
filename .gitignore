@@ -58,3 +58,13 @@ examples/mmc3_eth/firmware/src/SiTCP/*
 examples/mio3_eth_gpac/firmware/vivado/*
 !examples/mio3_eth_gpac/firmware/vivado/*.xpr
 examples/mio3_eth_gpac/firmware/src/SiTCP/*
+
+examples/bdaq/firmware/vivado/*
+!examples/bdaq/firmware/vivado/*.tcl
+examples/bdaq/firmware/src/SiTCP/*
+
+examples/kc705/firmware/vivado/*
+!examples/kc705/firmware/vivado/*.tcl
+examples/kc705/firmware/SiTCPXG
+examples/kc705/firmware/IP/*
+!examples/kc705/firmware/IP/ten_gig_eth_pcs_pma.xci

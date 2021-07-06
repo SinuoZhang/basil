@@ -85,12 +85,11 @@ class KC705_Eth_Test(Dut):
                     tick_old = tick
 
         datarate = (total_len / 1e6 / testduration)
-
         self._disable()
         self._flush_fifo()
-
         logging.info("Received: %s bytes in %u s, average data rate: %s Mbit/s" % (total_len, testduration, round(datarate, 2)))
-        return
+
+        return datarate
 
 
 if __name__ == "__main__":

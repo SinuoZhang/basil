@@ -143,6 +143,7 @@ class SiTcp(SiTransferLayer):
         self._tcp_readout_thread = None
         self._tcp_read_buff = None
         self.RBCP_ID = 0
+        self.speed = 1
 
     def reset(self):
         with self._tcp_lock:
@@ -188,6 +189,17 @@ class SiTcp(SiTransferLayer):
                 self._reset_tcp_to_bus()
         else:
             self._sock_tcp = None
+        self.speed = self._get_sitcp_flavor()
+
+    def _get_sitcp_flavor(self):
+        addresses = {0xFFFFFC18: '1', 0xFFFFFF18: '10'}  # The 1G and 10G SiTCP implementation use different register address ranges
+        sitcp_ip = self._init['ip']
+        for addr in addresses: 
+            ip_register = self.read(addr=addr, size=4) 
+            ip = '.'.join(f'{block}' for block in ip_register) 
+            if sitcp_ip == ip: 
+                logger.debug('DAQ IP {} found at register address 0x{:02X}. DAQ is running at {} Gbit/s'.format(ip, addr, addresses[addr]))
+        return addresses[addr]
 
     def _write_single(self, addr, data):
         retry_write_cnt = 0
